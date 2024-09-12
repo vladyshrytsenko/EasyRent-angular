@@ -1,0 +1,96 @@
+@import 'https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css';
+@import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css';
+
+body{margin-top:20px;}
+
+.widget.widget-image {
+    overflow: hidden;
+}
+
+.widget {
+    border: none;
+    box-shadow: 0 2px 0 rgba(0,0,0,.07);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    position: relative;
+    background: #fff;
+    padding: 20px;
+    display: block;
+}
+
+.widget-image-cover {
+    margin: -20px;
+    padding: 100% 20px 20px;
+    border-radius: 5px;
+    overflow: hidden;
+    background: #3C454D;
+    position: relative;
+}
+
+.widget-image:hover .widget-image-cover img {
+    max-width: 110%;
+    min-height: 110%;
+    margin-left: -5%;
+    margin-top: -5%;
+}
+
+.widget-image .widget-image-cover img {
+    transition: all .1s ease-in-out;
+}
+
+.widget-image-cover img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    min-height: 100%;
+    max-width: 100%;
+}
+
+.widget-image-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to bottom,rgba(0,0,0,0) 0,rgba(0,0,0,.8) 75%);
+    padding: 20px;
+    color: #fff;
+}
+
+.widget-image-info h5 {
+    color: #fff;
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.widget-image-info p {
+    color: rgba(255,255,255,.9);
+}
+
+.row {
+    margin: 0 -10px;
+}
+
+.row>[class*=col-] {
+    padding: 0 10px;
+}
+
+.widget-image-user .widget-image-user-image {
+    border-radius: 36px;
+    float: left;
+    width: 36px;
+    background: #fff;
+}
+
+.widget-image-user .widget-image-user-info {
+    margin-left: 46px;
+}
+
+.widget-image-user .widget-image-user-image img {
+    max-width: 100%;
+    border-radius: 36px;
+}

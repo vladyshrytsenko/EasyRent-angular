@@ -1,0 +1,156 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="content" class="content content-full-width">
+
+                            <div *ngIf="floor" class="floor">
+                                <div class="profile-header">
+
+                                    <div class="profile-header-cover"></div>
+
+                                    <div class="profile-header-content">
+
+                                        <div class="profile-header-img">
+                                            <img [src]="getSanitizedSvg()" height="115" width="140" alt="Floor SVG" />
+                                        </div>
+
+                                        <div class="profile-header-info">
+                                            <h4 class="m-t-10 m-b-5">Floor {{floor.id}}</h4>
+                                            <p class="m-b-10">details page</p>
+                                            <!-- <a href="#" class="btn btn-xs btn-success">Edit Profile</a> -->
+                                        </div>
+
+                                    </div>
+
+                                    <ul class="profile-header-tab nav nav-tabs">
+                                        <li class="nav-item">
+                                            <a href="javascript:void(0)" (click)="setActiveTab('offices')"
+                                                [ngClass]="{ 'active': isTabActive('offices') }"
+                                                class="nav-link">Offices</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="javascript:void(0)" (click)="setActiveTab('photos')"
+                                                [ngClass]="{ 'active': isTabActive('photos') }"
+                                                class="nav-link">Photos</a>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+
+                            <div class="profile-content">
+                                <div class="tab-content p-0">
+
+                                    <div *ngIf="isTabActive('offices')" class="tab-pane fade in active show">
+                                        <h3>Offices</h3>
+                                        <p>Here you can view and manage offices.</p>
+
+                                        <link
+                                            href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+                                            rel="stylesheet">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                                    <div class="card card-small">
+                                                        <div class="thumbnail">
+                                                            <img alt="Opt alp thumbnail"
+                                                                src="https://www.bootdey.com/image/300x230/20B2AA/000000">
+                                                            <a href="#/product/awesome-landing-page">
+                                                                <div class="thumb-cover"></div>
+                                                            </a>
+                                                            <div class="details">
+                                                                <div class="numbers">
+                                                                    <b class="downloads"><i
+                                                                            class="fa fa-arrow-circle-o-down"></i>
+                                                                        1124</b>
+                                                                    <b class="comments-icon"><i
+                                                                            class="fa fa-comment"></i> 10</b>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-info">
+                                                            <div class="moving">
+                                                                <a href="#/product/awesome-landing-page">
+                                                                    <h3>Awesome Product 1</h3>
+                                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic, tenetur!</p>
+                                                                </a>
+                                                                <b class="actions">
+                                                                    <a href="#/product/awesome-landing-page">Details</a>
+                                                                    <b class="separator">|</b>
+                                                                    <a class="blue-text"
+                                                                        href="#/live/awesome-landing-page"
+                                                                        target="_blank">Live Preview</a>
+                                                                </b>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div *ngIf="isTabActive('photos')" class="tab-pane fade in active show">
+                                    <h3>Photos</h3>
+                                    <p>Here you can view photos of the floor.</p>
+
+                                    <link
+                                        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+                                        rel="stylesheet">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                                <div class="card card-small">
+                                                    <div class="thumbnail">
+                                                        <img alt="Opt alp thumbnail"
+                                                            src="https://www.bootdey.com/image/300x230/20B2AA/000000">
+                                                        <a href="#/product/awesome-landing-page">
+                                                            <div class="thumb-cover"></div>
+                                                        </a>
+                                                        <div class="details">
+                                                            <div class="numbers">
+                                                                <b class="downloads"><i
+                                                                        class="fa fa-arrow-circle-o-down"></i> 1124</b>
+                                                                <b class="comments-icon"><i class="fa fa-comment"></i>
+                                                                    10</b>
+                                                            </div>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-info">
+                                                        <div class="moving">
+                                                            <a href="#/product/awesome-landing-page">
+                                                                <h3>Awesome Product 1</h3>
+                                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum, placeat.</p>
+                                                            </a>
+                                                            <b class="actions">
+                                                                <a href="#/product/awesome-landing-page">Details</a>
+                                                                <b class="separator">|</b>
+                                                                <a class="blue-text" href="#/live/awesome-landing-page"
+                                                                    target="_blank">Live Preview</a>
+                                                            </b>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>

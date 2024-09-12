@@ -2,8 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
-import { Availability } from "../model/availability";
-import { Office } from "../model/office";
+import { Availability } from "../../../model/availability";
+import { Office } from "../../../model/office";
 
 @Injectable({
     providedIn: 'root'
