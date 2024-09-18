@@ -15,7 +15,7 @@ import { Floor } from "../model/floor";
   
     public getById(id: number) : Observable<Floor> {
       return this.http.get<Floor>(`${this.apiServerUrl}/api/floors/${id}`);
-    } 
+    }
   
     public findAll() : Observable<Floor[]> {
       return this.http.get<Floor[]>(`${this.apiServerUrl}/api/floors`);

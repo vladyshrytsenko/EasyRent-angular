@@ -22,6 +22,8 @@ export class FloorDetailComponent implements OnInit {
     this.floorService.getById(+id!).subscribe(data => {
       this.floor = data;
     });
+
+    // (window as any).handleOfficeClick = this.onOfficeClick.bind(this);
   }
 
   activeTab: string = 'offices'; // default
@@ -36,5 +38,9 @@ export class FloorDetailComponent implements OnInit {
 
   getSanitizedSvg() {
     return this.sanitizer.bypassSecurityTrustUrl('data:image/svg+xml;base64,' + this.floor.svgPath);
+  }
+
+  onOfficeClick(officeId: number) {
+    console.log('office selected with id: ', officeId);
   }
 }

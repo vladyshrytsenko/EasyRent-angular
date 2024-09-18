@@ -17,22 +17,17 @@ export class FloorComponent implements OnInit {
 
   public floor!: Floor;
   public floors!: Floor[];
-
-  sanitizedSvg: SafeResourceUrl | null = null;
+  public floorSvgContents: string[] = [];
 
   constructor(private floorService: FloorService, private router: Router, private sanitizer: DomSanitizer) {}
 
   ngOnInit(): void {
-    this.findAllFloors();
-    for (let i = 0; i < this.floors.length; i++) {
-      this.sanitizedSvg = this.sanitizer.bypassSecurityTrustUrl('data:image/svg+xml;base64,' + this.floors[i].svgPath);
-    }
-    // this.sanitizedSvg = this.sanitizer.bypassSecurityTrustUrl('data:image/svg+xml;base64,' + this.floor.svgPath);
+    this.findAllFloors();  
   }
 
-  // getSanitizedSvg() {
-  //   return this.sanitizer.bypassSecurityTrustUrl('data:image/svg+xml;base64,' + this.floor.svgPath);
-  // }
+  getSanitizedSvg(svgPath: string) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(svgPath);
+  }
 
   viewFloor(id: number): void {
     this.router.navigate([`/floors/${id}`]);
@@ -53,6 +48,10 @@ export class FloorComponent implements OnInit {
     this.floorService.findAll().subscribe( 
       (response: Floor[]) => {
         this.floors = response;
+        console.log('floors: ', response);
+        for (let i = 0; i < response.length; i++) {
+          this.floorSvgContents.push('data:image/svg+xml;base64,' + response[i].svgPath);
+        }
       },
       (error: HttpErrorResponse) => {
         alert(error.message);

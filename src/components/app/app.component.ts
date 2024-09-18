@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Role, User } from '../../model/user';
 import { response } from 'express';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule, JsonPipe } from '@angular/common';
 import { UserService } from '../../service/user.service';
+import { NavbarComponent } from "../navbar/navbar.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, JsonPipe],
+  imports: [RouterOutlet, CommonModule, JsonPipe, NavbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -19,13 +20,18 @@ export class AppComponent implements OnInit{
   public user: User | undefined;
   public users: User[] | undefined;
   public testData: any;
+  showNavbar: boolean = true;
 
-  constructor(private userService: UserService) {}
+  constructor(private router: Router, private userService: UserService) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.showNavbar = !(this.router.url === '/login' || this.router.url === '/404');
+      }
+    });
+  }
 
   ngOnInit(): void {
-    // this.user = { id: 1, username: 'johnDoe', password: 'passw0rd', email: 'john@example.com', role: Role.Admin};
-    // this.registerUser(this.user);
-    // this.findUsers();
+
   }
 
   public getUserById(id: number): void {
@@ -51,7 +57,7 @@ export class AppComponent implements OnInit{
   }
 
   public registerUser(user: User): void {
-    this.userService.registerUser(user).subscribe(
+    this.userService.register(user).subscribe(
       (response: User) => {
         this.user = response;
       },

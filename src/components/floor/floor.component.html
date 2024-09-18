@@ -3,19 +3,10 @@
         <div *ngFor="let floor of floors" class="col-md-4">
             <a (click)="viewFloor(floor.id)" class="widget widget-image">
                 <div class="widget-image-cover">
-                    <img [src]="sanitizedSvg" alt="Floor SVG" />
+                    <img [src]="floorSvgContents[floor.id - 1]" alt="">
                 </div>
                 <div class="widget-image-info">
                     <h5>Floor {{floor?.id}}</h5>
-                    <!-- <div class="row">
-                        <div class="col-md-6">
-                            <div class="widget-image-user">
-                                <div class="widget-image-user-info">
-                                    <div>Capacity is {{floor.capacity}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
                 </div>
             </a>
         </div>
