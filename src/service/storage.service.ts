@@ -17,6 +17,10 @@ import { Injectable, Inject, PLATFORM_ID } from "@angular/core";
       }
       return null;
     }
+
+    public getJwtToken(): string | null {
+      return this.getItem('jwtToken');
+    }
   
     public setItem(key: string, value: string): void {
       if (this.isBrowser) {
@@ -25,8 +29,12 @@ import { Injectable, Inject, PLATFORM_ID } from "@angular/core";
     }
 
     public removeItem(key: string): void {
-        if (this.isBrowser) {
-          localStorage.removeItem(key);
-        }
+      if (this.isBrowser) {
+        localStorage.removeItem(key);
       }
+    }
+
+    public removeJwtToken(): void {
+      this.removeItem('jwtToken')
+    }
   }

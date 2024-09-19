@@ -1,10 +1,17 @@
 <div class="container bootstrap snippets bootdey">
     <div class="row">
-        <div *ngFor="let floor of floors" class="col-md-4">
+        <div *ngFor="let floor of floors; let i = index" class="col-md-4">
+            <div *ngIf="admin">
+                <button class="btn btn-info">Edit</button>
+                <button class="btn btn-danger">Remove</button>
+            </div>
+                          
+
             <a (click)="viewFloor(floor.id)" class="widget widget-image">
                 <div class="widget-image-cover">
-                    <img [src]="floorSvgContents[floor.id - 1]" alt="">
+                    <img [src]="floorSvgContents[i]" alt="">
                 </div>
+                <!-- <button *ngIf="admin" type="button" class="btn btn-primary">Admin button</button> -->
                 <div class="widget-image-info">
                     <h5>Floor {{floor?.id}}</h5>
                 </div>

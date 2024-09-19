@@ -19,9 +19,6 @@ export class LoginComponent implements OnInit {
   @ViewChild('registrationModal') registrationModal!: ElementRef;
   // registerForm!: FormGroup;
 
-  email: string = '';
-  password: string = '';
-
   user!: User;
 
   constructor(
@@ -36,15 +33,21 @@ export class LoginComponent implements OnInit {
     // Optionally, initialize the modal here if necessary
   }
 
-  public login(): void {
-    this.userService.login(this.email, this.password).subscribe(
+  public onAuthenticate(loginForm: NgForm): void {
+    console.log('entry point onAuthenticate')
+
+    const email = loginForm.value.email;
+    const password = loginForm.value.password;
+
+    this.userService.login(email, password).subscribe(
       data => {
-        this.userService.saveToken(data.token);
-        console.log('User signed in successfully');
+        this.storageService.setItem('jwtToken', data.token);
+        
+        console.log('User signed in successfully. token: ', data.token);
         this.router.navigate(['/floors']);
       },
       error => {
-        console.log('Login failed', error);
+        console.log('Login failed!', error.message);
       }
     );
   }
@@ -57,13 +60,6 @@ export class LoginComponent implements OnInit {
     //   confirmPassword: ['', Validators.required]
     // });
   }
-
-  // public onSubmit() {
-  //   if (this.registerForm.valid) {
-  //     console.log('Form Submitted', this.registerForm.value);
-  //     // Here you can send the form data to the backend
-  //   }
-  // }
 
   public onOpenModal(user: any, mode: string): void {
     const container = document.getElementById('main-container');
@@ -81,14 +77,14 @@ export class LoginComponent implements OnInit {
     button.click();
   }
 
-  public onRegister(addForm: NgForm) : void {
+  public onRegister(registerForm: NgForm) : void {
     console.log('entry point onRegister')
 
-    this.userService.register(addForm.value).subscribe(
+    this.userService.register(registerForm.value).subscribe(
       response => {
         console.log('User registered successfully', response);
         // token saving
-        this.storageService.setItem('jwtToken', response.token)
+        // this.storageService.setItem('jwtToken', response.token)
         this.router.navigate(['/login']);
 
         // $('#myModal').modal('hide')

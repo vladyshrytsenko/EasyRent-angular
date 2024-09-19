@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { User } from '../model/user';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,19 +12,31 @@ import { User } from '../model/user';
 export class UserService {
   private apiServerUrl = environment.apiBaseUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private storageService: StorageService) { }
 
   public getUserById(id: number) : Observable<User> {
     return this.http.get<User>(`${this.apiServerUrl}/api/users/${id}`);
+  } 
+
+  public getByUsername(username: string) : Observable<User> {
+    return this.http.get<User>(`${this.apiServerUrl}/api/users/username/${username}`);
+  } 
+
+  public getByRole(role: string) : Observable<User> {
+    return this.http.get<User>(`${this.apiServerUrl}/api/users/role/${role}`);
   } 
 
   public findAll() : Observable<User[]> {
     return this.http.get<User[]>(`${this.apiServerUrl}/api/users`);
   } 
 
-  public registerUser(user: User) : Observable<User> {
-    return this.http.post<User>(`${this.apiServerUrl}/api/users/register`, user);
+  public register(user: User): Observable<any> {
+    return this.http.post<any>(`${this.apiServerUrl}/api/users/auth/register`, user);
   } 
+
+  public login(email: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiServerUrl}/api/users/auth/authenticate`, { email, password });
+  }
 
   public updateUser(id: number, user: User) : Observable<User> {
     return this.http.put<User>(`${this.apiServerUrl}/api/users/${id}`, user);
@@ -32,5 +45,39 @@ export class UserService {
   public deleteUserById(id: number) : Observable<void> {
     return this.http.delete<void>(`${this.apiServerUrl}/api/users/${id}`);
   } 
+
+
+
+  public isAdmin(): boolean {
+    const token = this.storageService.getJwtToken()!;
+
+    if (token != null) {
+      const payload = this.decodeToken(token);
+      if (payload || payload.sub) {
+  
+        this.getByUsername(payload.sub).subscribe( 
+          (response: User) => {
+
+            if (response.role === 'ADMIN') {
+              return true;
+            }
+
+            return false;
+          }
+        );
+      }
+    }
+    return false;
+  }
+
+  public decodeToken(token: string): any {
+    try {
+      const payload = token.split('.')[1];
+      return JSON.parse(atob(payload));
+    } catch (e) {
+      console.error('Error decoding token', e);
+      return null;
+    }
+  }
 
 }

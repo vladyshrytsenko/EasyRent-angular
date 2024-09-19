@@ -5,6 +5,7 @@ import { FloorService } from '../../service/floor.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-floor',
@@ -18,15 +19,18 @@ export class FloorComponent implements OnInit {
   public floor!: Floor;
   public floors!: Floor[];
   public floorSvgContents: string[] = [];
+  public admin!: boolean;
 
-  constructor(private floorService: FloorService, private router: Router, private sanitizer: DomSanitizer) {}
+  constructor(
+    private floorService: FloorService, 
+    private router: Router, 
+    private sanitizer: DomSanitizer,
+    private userService: UserService
+  ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    // await this.isAdmin();
     this.findAllFloors();  
-  }
-
-  getSanitizedSvg(svgPath: string) {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(svgPath);
   }
 
   viewFloor(id: number): void {
@@ -49,11 +53,14 @@ export class FloorComponent implements OnInit {
       (response: Floor[]) => {
         this.floors = response;
         console.log('floors: ', response);
-        for (let i = 0; i < response.length; i++) {
-          this.floorSvgContents.push('data:image/svg+xml;base64,' + response[i].svgPath);
-        }
+
+        this.floorSvgContents = [];
+
+        response.forEach(floor => {
+          this.floorSvgContents.push('data:image/svg+xml;base64,' + floor.svgPath);
+        });
       },
-      (error: HttpErrorResponse) => {
+      error => {
         alert(error.message);
       } 
     );
@@ -91,4 +98,9 @@ export class FloorComponent implements OnInit {
       }
     );
   }
+
+  private async isAdmin(): Promise<boolean> {
+    return await this.userService.isAdmin();
+  }
+  
 }
