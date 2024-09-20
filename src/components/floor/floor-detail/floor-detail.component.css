@@ -12,7 +12,7 @@ body{
 }
 
 .profile-header .profile-header-cover {
-    background-color: #00b5ec;
+    background-color: #05c384;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -616,4 +616,14 @@ a, a:hover, a:focus, .btn:focus, .btn:hover, .btn:active, .btn:active:focus, .bt
     outline: 0;
     outline-color: transparent;
     outline-style: none;
+}
+
+.background-image-example {
+    background-image: url('https://images.pexels.com/photos/1166644/pexels-photo-1166644.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100vh;
+    width: 100%;
 }

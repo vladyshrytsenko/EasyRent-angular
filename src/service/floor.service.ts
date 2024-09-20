@@ -21,12 +21,16 @@ import { Floor } from "../model/floor";
       return this.http.get<Floor[]>(`${this.apiServerUrl}/api/floors`);
     } 
   
-    public create(user: Floor) : Observable<Floor> {
-      return this.http.post<Floor>(`${this.apiServerUrl}/api/floors`, user);
-    } 
+    public create(floor: Floor, file: File): Observable<Floor> {
+      const formData: FormData = new FormData();
+      formData.append('floor', new Blob([JSON.stringify(floor)], { type: 'application/json' }));
+      formData.append('file', file);
   
-    public update(id: number, user: Floor) : Observable<Floor> {
-      return this.http.put<Floor>(`${this.apiServerUrl}/api/floors/${id}`, user);
+      return this.http.post<Floor>(`${this.apiServerUrl}/api/floors`, formData);
+  }  
+  
+    public update(id: number, floor: Floor) : Observable<Floor> {
+      return this.http.put<Floor>(`${this.apiServerUrl}/api/floors/${id}`, floor);
     } 
   
     public deleteById(id: number) : Observable<void> {

@@ -6,11 +6,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { UserService } from '../../service/user.service';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-floor',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './floor.component.html',
   styleUrl: './floor.component.css'
 })
@@ -28,10 +29,19 @@ export class FloorComponent implements OnInit {
     private userService: UserService
   ) {}
 
-  async ngOnInit(): Promise<void> {
-    // await this.isAdmin();
-    this.findAllFloors();  
+  ngOnInit(): void {
+    this.userService.isAdmin().subscribe(
+      (isAdmin: boolean) => {
+        this.admin = isAdmin;
+      },
+      error => {
+        console.error('Error checking admin status:', error);
+        this.admin = false;
+      }
+    );
+    this.findAllFloors();
   }
+  
 
   viewFloor(id: number): void {
     this.router.navigate([`/floors/${id}`]);
@@ -66,10 +76,17 @@ export class FloorComponent implements OnInit {
     );
   }
 
-  public addFloor(floor: Floor): void {
-    this.floorService.create(floor).subscribe(
+  public onUpdateFloor(id: number, editFloorForm: NgForm): void {
+    console.log('entry point onUpdateFloor');
+
+    this.floor = editFloorForm.value;
+
+    this.floorService.update(id, this.floor).subscribe(
       (response: Floor) => {
+        console.log('Floor updated successfully', response);
+
         this.floor = response;
+        // this.router.navigate(['/floors']);
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -77,21 +94,14 @@ export class FloorComponent implements OnInit {
     )
   }
 
-  public updateFloorById(id: number, floor: Floor): void {
-    this.floorService.update(id, floor).subscribe(
-      (response: Floor) => {
-        this.floor = response;
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    )
-  }
+  public onDeleteFloor(id: number): void {
+    console.log('entry point onDeleteFloor');
 
-  public deleteFloorById(id: number): void {
     this.floorService.deleteById(id).subscribe(
       (response) => {
         console.log('Floor deleted successfully');
+
+      this.findAllFloors();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -99,8 +109,8 @@ export class FloorComponent implements OnInit {
     );
   }
 
-  private async isAdmin(): Promise<boolean> {
-    return await this.userService.isAdmin();
-  }
+  // private async isAdmin(): Promise<boolean> {
+  //   return await this.userService.isAdmin();
+  // }
   
 }

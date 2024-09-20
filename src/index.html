@@ -13,5 +13,27 @@
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+  <script>
+    fetch('/api/polyfills.js').then(response => {
+      if (response.ok) {
+        let script = document.createElement('script');
+        script.src = '/api/polyfills.js';
+        document.head.appendChild(script);
+      }
+    }).catch(() => {
+      console.log('Polyfills not found, skipping...');
+    });
+  
+    fetch('/api/main.js').then(response => {
+      if (response.ok) {
+        let script = document.createElement('script');
+        script.src = '/api/main.js';
+        document.head.appendChild(script);
+      }
+    }).catch(() => {
+      console.log('Main.js not found, skipping...');
+    });
+  </script>
 </body>
 </html>

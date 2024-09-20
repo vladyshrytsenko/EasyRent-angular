@@ -61,22 +61,6 @@ export class LoginComponent implements OnInit {
     // });
   }
 
-  public onOpenModal(user: any, mode: string): void {
-    const container = document.getElementById('main-container');
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.style.display = 'none';
-
-    button.setAttribute('data-toggle', 'modal');
-
-    if (mode === 'register') {
-      button.setAttribute('data-target', '#registrationModal')
-    }
-
-    container?.appendChild(button);
-    button.click();
-  }
-
   public onRegister(registerForm: NgForm) : void {
     console.log('entry point onRegister')
 

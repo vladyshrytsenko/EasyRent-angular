@@ -1,44 +1,48 @@
 <div class="navbar navbar-expand-md navbar-dark bg-dark mb-4" role="navigation">
-    <a class="navbar-brand" href="#">Office Rental System</a>
+    <a class="navbar-brand" href="/floors">Office Rental System</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
-        <!-- <button *ngIf="isAdmin()" type="button" class="btn btn-primary">Admin panel</button> -->
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/floors">Floors /<span class="sr-only">(current)</span></a>
+            </li>
+            <button *ngIf="admin" class="btn btn-secondary" type="button" data-toggle="modal" data-target="#createFloorModal">Create</button>
+        </ul>
         <div class="ml-auto">
             <button type="button" (click)="onLogout()" class="btn btn-danger">Logout</button>
         </div>
     </div>
 </div>
 
-<!-- <script>
-    $(document).ready(function () {
+<!-- Create Floor Modal -->
+<div class="modal fade" id="createFloorModal" tabindex="-1" role="dialog" aria-labelledby="createFloorModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Create a new floor:</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        <div class="modal-body">
+          <form #createFloorForm="ngForm" (ngSubmit)="onCreateFloor(createFloorForm, fileInput)">
+            <div class="form-group">
+                <label for="exampleFormControlFile1">SVG plan</label>
+                <input #fileInput type="file" class="form-control-file" id="exampleFormControlFile1">
+            </div>
+            <div class="form-check form-check-inline">
+                <label for="cr-floor-isAvailable" class="col-form-label">Is available?</label>
+                <input class="form-check-input position-static" type="checkbox" id="cr-floor-isAvailable" value="option1" aria-label="..." style="margin-left: 10px;" checked>
+            </div>
 
-$('.navbar .dropdown-item').on('click', function (e) {
-    var $el = $(this).children('.dropdown-toggle');
-    var $parent = $el.offsetParent(".dropdown-menu");
-    $(this).parent("li").toggleClass('open');
-
-    if (!$parent.parent().hasClass('navbar-nav')) {
-        if ($parent.hasClass('show')) {
-            $parent.removeClass('show');
-            $el.next().removeClass('show');
-            $el.next().css({"top": -999, "left": -999});
-        } else {
-            $parent.parent().find('.show').removeClass('show');
-            $parent.addClass('show');
-            $el.next().addClass('show');
-            $el.next().css({"top": $el[0].offsetTop, "left": $parent.outerWidth() - 4});
-        }
-        e.preventDefault();
-        e.stopPropagation();
-    }
-});
-
-$('.navbar .dropdown').on('hidden.bs.dropdown', function () {
-    $(this).find('li.dropdown').removeClass('show open');
-    $(this).find('ul.dropdown-menu').removeClass('show open');
-});
-
-});
-</script> -->
+            <div class="modal-footer">
+              <!-- <button [disabled]="createFloorForm.invalid" id="create_floor_button" type="submit" class="btn btn-primary">Save</button> -->
+              <button [disabled]="createFloorForm.invalid" id="create_floor_button" type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

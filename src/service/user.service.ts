@@ -48,27 +48,39 @@ export class UserService {
 
 
 
-  public isAdmin(): boolean {
-    const token = this.storageService.getJwtToken()!;
-
-    if (token != null) {
-      const payload = this.decodeToken(token);
-      if (payload || payload.sub) {
+  public isAdmin(): Observable<boolean> {
+    return new Observable<boolean>((observer) => {
+      const token = this.storageService.getJwtToken()!;
   
-        this.getByUsername(payload.sub).subscribe( 
-          (response: User) => {
-
-            if (response.role === 'ADMIN') {
-              return true;
+      if (token != null) {
+        const payload = this.decodeToken(token);
+        if (payload || payload.sub) {
+          this.getByUsername(payload.sub).subscribe(
+            (response: User) => {
+              if (response.role === 'ADMIN') {
+                observer.next(true);
+              } else {
+                observer.next(false);
+              }
+              observer.complete();
+            },
+            error => {
+              console.error('Error fetching user:', error);
+              observer.next(false);
+              observer.complete();
             }
-
-            return false;
-          }
-        );
+          );
+        } else {
+          observer.next(false);
+          observer.complete();
+        }
+      } else {
+        observer.next(false);
+        observer.complete();
       }
-    }
-    return false;
+    });
   }
+  
 
   public decodeToken(token: string): any {
     try {

@@ -1,17 +1,16 @@
+<div class="background-image-example">
 <div class="container bootstrap snippets bootdey">
     <div class="row">
         <div *ngFor="let floor of floors; let i = index" class="col-md-4">
             <div *ngIf="admin">
-                <button class="btn btn-info">Edit</button>
-                <button class="btn btn-danger">Remove</button>
-            </div>
-                          
+                <button class="btn btn-info" type="button" data-toggle="modal" data-target="#editFloorModal">Edit</button>
+                <button (click)="onDeleteFloor(floor.id)" class="btn btn-danger" type="button" >Remove</button>
+            </div>           
 
-            <a (click)="viewFloor(floor.id)" class="widget widget-image">
+            <a (click)="viewFloor(floor.id)" class="widget widget-image" style="width: 85%; height: 85%;">
                 <div class="widget-image-cover">
                     <img [src]="floorSvgContents[i]" alt="">
                 </div>
-                <!-- <button *ngIf="admin" type="button" class="btn btn-primary">Admin button</button> -->
                 <div class="widget-image-info">
                     <h5>Floor {{floor?.id}}</h5>
                 </div>
@@ -19,3 +18,42 @@
         </div>
     </div>
 </div>
+</div>
+
+<!-- Edit floor Modal -->
+<div class="modal fade" id="editFloorModal" tabindex="-1" role="dialog" aria-labelledby="editFloorModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Updating Floor</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        <div class="modal-body">
+          <form #editFloorForm="ngForm" (ngSubmit)="onUpdateFloor(floor.id, editFloorForm)">
+            <div class="form-group">
+              <label for="reg-username" class="col-form-label">Username:</label>
+              <input type="text" ngModel name="username" class="form-control" id="reg-username" required>
+            </div>
+            <div class="form-group">
+              <label for="reg-email" class="col-form-label">Email:</label>
+              <input type="text" ngModel name="email" class="form-control" id="reg-email" required>
+            </div>
+            <div class="form-group">
+              <label for="reg-password" class="col-form-label">Password:</label>
+              <input type="password" ngModel name="password" class="form-control" id="reg-password" required>
+            </div>
+            <div class="form-group">
+              <label for="reg-confirm-password" class="col-form-label">Confirm password:</label>
+              <input type="password" class="form-control" id="reg-confirm-password">
+            </div>
+
+            <div class="modal-footer">
+              <button [disabled]="editFloorForm.invalid" id="idit_floor_button" type="submit" class="btn btn-primary">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
