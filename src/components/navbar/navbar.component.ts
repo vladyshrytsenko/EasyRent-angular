@@ -8,6 +8,7 @@ import { FloorService } from '../../service/floor.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Modal } from 'bootstrap';
 import { UserService } from '../../service/user.service';
+import { User } from '../../model/user';
 
 @Component({
   selector: 'app-navbar',
@@ -20,6 +21,7 @@ export class NavbarComponent implements OnInit {
   // @ViewChild('createFloorModal') createFloorModal!: ElementRef;
 
   public floor!: Floor;
+  public user!: User;
   public admin!: boolean;
 
   constructor(
@@ -39,14 +41,25 @@ export class NavbarComponent implements OnInit {
         this.admin = false;
       }
     );
+    this.userService.getCurrentUser().subscribe(
+      (response: User) => {
+        this.user = response;
+      },
+      error => {
+        console.error('Error getting current user:', error);
+        this.admin = false;
+      }
+    );
   }
 
-  public onCreateFloor(createFloorForm: NgForm, fileInput: HTMLInputElement): void {
-    const file = fileInput.files?.[0];
+  public onCreateFloor(
+    createFloorForm: NgForm, 
+    svgInput: HTMLInputElement, 
+    photosInput: HTMLInputElement): void {
 
     const floor = createFloorForm.value;
   
-    this.floorService.create(floor, file as File).subscribe(
+    this.floorService.create(floor, svgInput.files?.[0] as File, photosInput.files as FileList).subscribe(
         (response: Floor) => {
             console.log('Floor created successfully', response);
             this.floor = response;

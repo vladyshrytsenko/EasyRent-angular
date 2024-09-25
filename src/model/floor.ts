@@ -5,4 +5,5 @@ export interface Floor {
     svgPath: string;
     isAvailable: boolean;
     offices: Office[];
+    photos: string[];
 }

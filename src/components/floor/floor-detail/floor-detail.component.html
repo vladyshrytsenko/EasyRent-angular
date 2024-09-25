@@ -56,46 +56,17 @@
                                 </div>
 
                                 <div *ngIf="isTabActive('photos')" class="tab-pane fade in active show">
-                                    <h3>Photos</h3>
+                                    <div class="d-flex align-items-center">
+                                        <h3 class="mb-0 mr-3">Photos</h3>
+                                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#uploadOfficePhotosModal">Upload</button>
+                                      </div>
                                     <p>Here you can view photos of the floor.</p>
 
-                                    <link
-                                        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
-                                        rel="stylesheet">
                                     <div class="container">
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                                                <div class="card card-small">
-                                                    <div class="thumbnail">
-                                                        <img alt="Opt alp thumbnail"
-                                                            src="https://www.bootdey.com/image/300x230/20B2AA/000000">
-                                                        <a href="#/product/awesome-landing-page">
-                                                            <div class="thumb-cover"></div>
-                                                        </a>
-                                                        <div class="details">
-                                                            <div class="numbers">
-                                                                <b class="downloads"><i
-                                                                        class="fa fa-arrow-circle-o-down"></i> 1124</b>
-                                                                <b class="comments-icon"><i class="fa fa-comment"></i>
-                                                                    10</b>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-info">
-                                                        <div class="moving">
-                                                            <a href="#/product/awesome-landing-page">
-                                                                <h3>Awesome Product 1</h3>
-                                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum, placeat.</p>
-                                                            </a>
-                                                            <b class="actions">
-                                                                <a href="#/product/awesome-landing-page">Details</a>
-                                                                <b class="separator">|</b>
-                                                                <a class="blue-text" href="#/live/awesome-landing-page"
-                                                                    target="_blank">Live Preview</a>
-                                                            </b>
-                                                        </div>
-                                                    </div>
+                                                <div *ngFor="let photo of getSanitizedImages()" (click)="imageModal.open(photo)" class="thumbnail">
+                                                    <img [src]="photo" (click)="selectedImage = photo" height="200" width="320" alt="Floor SVG" />
                                                 </div>
                                             </div>
 
@@ -113,3 +84,50 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <img [src]="selectedImage" alt="Selected Image" style="width: 100%; height: auto;">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Photos Modal -->
+<div class="modal fade" id="uploadOfficePhotosModal" tabindex="-1" role="dialog" aria-labelledby="uploadOfficePhotosModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Upload a new photos:</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        <div class="modal-body">
+          <form #uploadOfficePhotosForm="ngForm" (ngSubmit)="onUpdateFloor(floor!.id, photosInput)">
+            <div class="form-group">
+              <label for="photos">Photos</label>
+              <input #photosInput type="file" name="photos" class="form-control-file" id="photos" multiple required>
+            </div>
+
+            <div class="modal-footer">
+              <button [disabled]="uploadOfficePhotosForm.invalid" id="update_floor_photos_button" type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-image-modal></app-image-modal>

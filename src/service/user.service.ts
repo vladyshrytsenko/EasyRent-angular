@@ -22,6 +22,10 @@ export class UserService {
     return this.http.get<User>(`${this.apiServerUrl}/api/users/username/${username}`);
   } 
 
+  public getByEmail(email: string) : Observable<User> {
+    return this.http.get<User>(`${this.apiServerUrl}/api/users/email/${email}`);
+  }
+
   public getByRole(role: string) : Observable<User> {
     return this.http.get<User>(`${this.apiServerUrl}/api/users/role/${role}`);
   } 
@@ -80,7 +84,31 @@ export class UserService {
       }
     });
   }
+
+  public getCurrentUser(): Observable<User> {
+    return new Observable<User>((observer) => {
+      const token = this.storageService.getJwtToken();
   
+      if (token != null) {
+        const payload = this.decodeToken(token);
+        if (payload && payload.sub) {
+          this.getByUsername(payload.sub).subscribe(
+            (response: User) => {
+              observer.next(response);
+              observer.complete();
+            },
+            (error) => {
+              observer.error(error);
+            }
+          );
+        } else {
+          observer.error('Invalid token payload');
+        }
+      } else {
+        observer.error('No token found');
+      }
+    });
+  }  
 
   public decodeToken(token: string): any {
     try {

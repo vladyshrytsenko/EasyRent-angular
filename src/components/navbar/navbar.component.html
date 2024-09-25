@@ -10,7 +10,8 @@
             </li>
             <button *ngIf="admin" class="btn btn-secondary" type="button" data-toggle="modal" data-target="#createFloorModal">Create</button>
         </ul>
-        <div class="ml-auto">
+        <div class="ml-auto d-flex align-items-center">
+            <p class="text-white mb-0 mr-2">Welcome, {{user.email}}! ({{user.role}})</p>
             <button type="button" (click)="onLogout()" class="btn btn-danger">Logout</button>
         </div>
     </div>
@@ -27,10 +28,14 @@
             </button>
           </div>
         <div class="modal-body">
-          <form #createFloorForm="ngForm" (ngSubmit)="onCreateFloor(createFloorForm, fileInput)">
+          <form #createFloorForm="ngForm" (ngSubmit)="onCreateFloor(createFloorForm, svgInput, photosInput)">
             <div class="form-group">
-                <label for="exampleFormControlFile1">SVG plan</label>
-                <input #fileInput type="file" class="form-control-file" id="exampleFormControlFile1">
+                <label for="svg_plan">SVG plan</label>
+                <input #svgInput type="file" class="form-control-file" id="svg_plan">
+            </div>
+            <div class="form-group">
+              <label for="gallery">Gallery (optional)</label>
+              <input #photosInput type="file" name="photos" class="form-control-file" id="gallery" multiple>
             </div>
             <div class="form-check form-check-inline">
                 <label for="cr-floor-isAvailable" class="col-form-label">Is available?</label>
