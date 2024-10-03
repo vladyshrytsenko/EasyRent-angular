@@ -12,7 +12,7 @@
         </ul>
         <div class="ml-auto d-flex align-items-center">
             <p class="text-white mb-0 mr-2">Welcome, {{user.email}}! ({{user.role}})</p>
-            <button type="button" (click)="onLogout()" class="btn btn-danger">Logout</button>
+            <button type="button" (click)="onLogout()" class="btn btn-outline-danger">Logout</button>
         </div>
     </div>
 </div>
@@ -29,6 +29,10 @@
           </div>
         <div class="modal-body">
           <form #createFloorForm="ngForm" (ngSubmit)="onCreateFloor(createFloorForm, svgInput, photosInput)">
+            <div class="form-group">
+              <label for="floor-number" class="col-form-label">Floor number:</label>
+              <input type="number" ngModel name="number" class="form-control" id="floor-number" required>
+            </div>
             <div class="form-group">
                 <label for="svg_plan">SVG plan</label>
                 <input #svgInput type="file" class="form-control-file" id="svg_plan">

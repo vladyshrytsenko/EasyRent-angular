@@ -76,12 +76,16 @@ export class FloorComponent implements OnInit {
     );
   }
 
-  public onUpdateFloor(id: number, editFloorForm: NgForm): void {
+  public onUpdateFloor(
+    id: number, 
+    editFloorForm: NgForm,
+    photosInput: HTMLInputElement): void {
+      
     console.log('entry point onUpdateFloor');
 
     this.floor = editFloorForm.value;
 
-    this.floorService.update(id, this.floor).subscribe(
+    this.floorService.update(id, this.floor, photosInput.files as FileList).subscribe(
       (response: Floor) => {
         console.log('Floor updated successfully', response);
 
@@ -108,9 +112,5 @@ export class FloorComponent implements OnInit {
       }
     );
   }
-
-  // private async isAdmin(): Promise<boolean> {
-  //   return await this.userService.isAdmin();
-  // }
   
 }
